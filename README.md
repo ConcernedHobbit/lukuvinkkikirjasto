@@ -4,19 +4,33 @@
 [![codecov](https://codecov.io/gh/ConcernedHobbit/lukuvinkkikirjasto/branch/main/graph/badge.svg?token=9SrEY3LhzC)](https://codecov.io/gh/ConcernedHobbit/lukuvinkkikirjasto)
 
 ## Kehittäminen ja suorittaminen
+
+### Vaatimuksina Java 11+ ja PostgreSQL
+
 1. Kloonaa repositorio  
-`git clone https://github.com/ConcernedHobbit/lukuvinkkikirjasto.git`
+   `git clone https://github.com/ConcernedHobbit/lukuvinkkikirjasto.git`
 
 2. Mene kansioon  
-`cd lukuvinkkikirjasto`
+   `cd lukuvinkkikirjasto`
 
-3. Rakenna projekti Gradlella  
-Linux: `./gradlew build`   
-Windows: `gradlew.bat build` (tai PowerShellissä `.\gradlew build`)
+3. Luodaan tiedosto `.env` ja lisätään sinne ympäristömuuttujat  
 
-*Seuraavissa komennoissa (gradle) on riippuvainen käyttöjärjestelmästä, kts. kohta 3*  
+```
+URL=tietokannan osoite
+USER=psql käyttäjä
+PW=käyttäjän salasana
+```
 
-**Suorittaminen**: `(gradle) run` 
+4. Alustetaan tietokantaan tarvittavat taulut  
+   `psql < schema.sql`
+
+5. Rakenna projekti Gradlella  
+   Linux: `./gradlew build`   
+   Windows: `gradlew.bat build` (tai PowerShellissä `.\gradlew build`)
+
+*Seuraavissa komennoissa (gradle) on riippuvainen käyttöjärjestelmästä, kts. kohta 3*
+
+**Suorittaminen**: `(gradle) run`
 
 **Testaaminen**: `(gradle) test`  
 Testiraportti muodostuu polkuun `build/reports/test`
