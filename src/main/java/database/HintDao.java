@@ -8,7 +8,7 @@ public interface HintDao {
 
     Hint getHint(int id);
 
-    List<Hint> getAllHints();
+    List<String> getAllHints();
 
     void addHint(Hint hint);
 

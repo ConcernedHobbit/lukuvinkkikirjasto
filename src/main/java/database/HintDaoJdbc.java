@@ -6,6 +6,8 @@ import org.apache.commons.dbutils.DbUtils;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.List;
 
 public class HintDaoJdbc implements HintDao {
@@ -28,9 +30,26 @@ public class HintDaoJdbc implements HintDao {
         }
     }
 
+    @SneakyThrows
     @Override
-    public List<Hint> getAllHints() {
-        return null;
+    public List<String> getAllHints() {
+        Connector connector = new Connector();
+        Statement st = connector.getConnection().createStatement();
+        ResultSet rs = st.executeQuery("SELECT * FROM hints");
+
+        if (rs.wasNull()) {
+            DbUtils.closeQuietly(connector.getConnection(), st, rs);
+            return null;
+        }
+
+        ArrayList<String> list = new ArrayList<>();
+
+        while (rs.next()) {
+            list.add("ID=" + rs.getInt("id") + " " +
+                    new Hint(rs.getString("header"), rs.getString("link")));
+        }
+        DbUtils.closeQuietly(connector.getConnection(), st, rs);
+        return list;
     }
 
     @SneakyThrows
@@ -45,8 +64,14 @@ public class HintDaoJdbc implements HintDao {
         DbUtils.closeQuietly(ps);
     }
 
+    @SneakyThrows
     @Override
     public void removeHint(int id) {
-
+        Connector connector = new Connector();
+        PreparedStatement ps = connector.getConnection().prepareStatement("DELETE FROM hints WHERE id=?");
+        ps.setInt(1, id);
+        ps.executeUpdate();
+        DbUtils.closeQuietly(connector.getConnection());
+        DbUtils.closeQuietly(ps);
     }
 }
