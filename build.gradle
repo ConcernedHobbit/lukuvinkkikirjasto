@@ -11,6 +11,8 @@ plugins {
     id 'application'
     // Add jacoco for test coverage
     id 'jacoco'
+
+    id "io.freefair.lombok" version "6.4.1"
 }
 
 repositories {

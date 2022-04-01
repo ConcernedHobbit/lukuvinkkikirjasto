@@ -3,22 +3,24 @@
  */
 package kirjasto;
 
+import lombok.Data;
+
 import java.util.Scanner;
 
+@Data
 public class Main {
-    public String getGreeting() {
-        return "Hello World!";
-    }
+
+    private String greeting = "Hello World!";
 
     public static void main(String[] args) {
         System.out.println(new Main().getGreeting());
-        
+
         System.out.print(">");
         Scanner scan = new Scanner(System.in);
-        
+
         System.out.println();
         System.out.println("Kirjoitit " + scan.nextLine());
-        
+
         scan.close();
     }
 }
