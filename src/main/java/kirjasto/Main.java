@@ -5,6 +5,7 @@ package kirjasto;
 
 import lombok.Data;
 
+
 import java.util.Scanner;
 
 @Data
@@ -13,14 +14,15 @@ public class Main {
     private String greeting = "Hello World!";
 
     public static void main(String[] args) {
-        System.out.println(new Main().getGreeting());
+        //System.out.println(new Main().getGreeting());
 
-        System.out.print(">");
-        Scanner scan = new Scanner(System.in);
+        IO cIO = new ConsoleIO();
 
-        System.out.println();
-        System.out.println("Kirjoitit " + scan.nextLine());
+        TextUserInterface tUI = new TextUserInterface(cIO);
 
-        scan.close();
+            tUI.display();
+
+
+
     }
 }
