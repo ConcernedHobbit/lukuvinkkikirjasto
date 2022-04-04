@@ -5,7 +5,7 @@ package kirjasto;
 
 import lombok.Data;
 
-
+import database.*;
 import java.util.Scanner;
 
 @Data
@@ -17,10 +17,14 @@ public class Main {
         //System.out.println(new Main().getGreeting());
 
         IO cIO = new ConsoleIO(new Scanner(System.in));
+        HintDaoJdbc db = new HintDaoJdbc();
 
-        TextUserInterface tUI = new TextUserInterface(cIO);
+        TextUserInterface tUI = new TextUserInterface(cIO,db);
 
-            tUI.display();
+            while(!tUI.exit()) {
+                tUI.display();
+            }
+
 
 
 

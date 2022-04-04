@@ -1,5 +1,6 @@
 package kirjasto;
 
+import database.HintDaoJdbc;
 import org.junit.*;
 import static org.junit.Assert.*;
 
@@ -25,6 +26,12 @@ class textIO implements IO {
     }
 
     public int nextInt() {return inputs[count++];}
+
+    @Override
+    public String nextLine() {
+        return null;
+    }
+
     public void print(String msg) {outputs.add(msg);}
 
     }
@@ -33,10 +40,14 @@ public class TextUserInterfaceTest {
 
 
 
+
+
     @Test
     public void addMenuOptionOutput() {
         textIO tIO = new textIO(1);
-        new TextUserInterface(tIO).display();
+        HintDaoJdbc db = new HintDaoJdbc();
+        TextUserInterface tUI = new TextUserInterface(tIO, db);
+        tUI.display();
 
         assertEquals("Lisataan vinkki", tIO.outputs.get(2));
 
@@ -45,7 +56,9 @@ public class TextUserInterfaceTest {
     @Test
     public void BrowseMenuOptionOutput() {
         textIO tIO = new textIO(2);
-        new TextUserInterface(tIO).display();
+        HintDaoJdbc db = new HintDaoJdbc();
+        TextUserInterface tUI = new TextUserInterface(tIO, db);
+        tUI.display();
 
         assertEquals("Selataan vinkkeja", tIO.outputs.get(2));
 
@@ -77,8 +90,6 @@ public class TextUserInterfaceTest {
         assertEquals("Vaara syote", tIO.outputs.get(2));
 
     }
-
-
         
 
 }

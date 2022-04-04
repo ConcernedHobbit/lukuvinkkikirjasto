@@ -1,20 +1,46 @@
 package kirjasto;
 
 import java.util.ArrayList;
+import java.util.List;
+
+import database.*;
 
 public class TextUserInterface {
 
     private IO io;
-    private ArrayList<Hint> hints;
+    private HintDaoJdbc db;
+    private boolean endState = false;
+
+    public TextUserInterface(IO io, HintDaoJdbc db) {
+        this.io = io;
+        this.db = db;
+    }
 
     public TextUserInterface(IO io) {
         this.io = io;
     }
 
-    private void add() {}
-    private void remove() {}
-    private void browse() {}
-    private void exit() {}
+    private void add() {
+        io.print(("Anna vinkin otsikko"));
+        io.nextLine();
+        String name = io.nextLine();
+        io.print("Anna vinkin linkki");
+        String linkki = io.nextLine();
+        db.addHint(new Hint(name, linkki));
+        io.print("Lisättiin vinkki nimellä" + name + "\n"
+                    + "Otsikko: " + linkki   );
+    }
+    private void remove() {
+
+    }
+    private void browse() {
+        io.print(db.getAllHints().toString());
+
+
+    }
+    public boolean exit() {
+        return this.endState;
+    }
 
     public void display() {
         io.print("Tervetuloa lukuvinkkikirjastoon! Sallitut komennot: \n" +
@@ -42,7 +68,9 @@ public class TextUserInterface {
                     break;
                 case 4:
                     io.print("exit");
+                    this.endState = true;
                     this.exit();
+                    break;
                 default:
                     io.print("Vaara syote");
 
