@@ -10,10 +10,12 @@ public class TextUserInterface {
     private IO io;
     private HintDaoJdbc db;
     private boolean endState = false;
+    private boolean useDB = false;
 
     public TextUserInterface(IO io, HintDaoJdbc db) {
         this.io = io;
         this.db = db;
+        this.useDB = false;
     }
 
     public TextUserInterface(IO io) {
@@ -21,6 +23,7 @@ public class TextUserInterface {
     }
 
     private void add() {
+        io.print("Vinkin lisäys: ");
         io.print(("Anna vinkin otsikko"));
         io.nextLine();
         String name = io.nextLine();
@@ -56,11 +59,12 @@ public class TextUserInterface {
             switch(cmd) {
                 case 1:
                     io.print("Lisataan vinkki");
-                    this.add();
+                    if (useDB) {
+                        this.add();
+                    }
                     break;
                 case 2:
                     io.print("Selataan vinkkeja");
-                    this.browse();
                     break;
                 case 3:
                     io.print("Poista vinkki");

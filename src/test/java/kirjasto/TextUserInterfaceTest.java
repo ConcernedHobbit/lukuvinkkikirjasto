@@ -29,7 +29,7 @@ class textIO implements IO {
 
     @Override
     public String nextLine() {
-        return null;
+        return "haha";
     }
 
     public void print(String msg) {outputs.add(msg);}
@@ -44,7 +44,7 @@ public class TextUserInterfaceTest {
 
     @Test
     public void addMenuOptionOutput() {
-        textIO tIO = new textIO(3);
+        textIO tIO = new textIO(1);
         new TextUserInterface(tIO).display();
 
         assertEquals("Lisataan vinkki", tIO.outputs.get(2));
@@ -53,7 +53,7 @@ public class TextUserInterfaceTest {
 
     @Test
     public void BrowseMenuOptionOutput() {
-        textIO tIO = new textIO(3);
+        textIO tIO = new textIO(2);
         new TextUserInterface(tIO).display();
 
 
