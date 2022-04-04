@@ -44,10 +44,8 @@ public class TextUserInterfaceTest {
 
     @Test
     public void addMenuOptionOutput() {
-        textIO tIO = new textIO(1);
-        HintDaoJdbc db = new HintDaoJdbc();
-        TextUserInterface tUI = new TextUserInterface(tIO, db);
-        tUI.display();
+        textIO tIO = new textIO(3);
+        new TextUserInterface(tIO).display();
 
         assertEquals("Lisataan vinkki", tIO.outputs.get(2));
 
@@ -55,10 +53,9 @@ public class TextUserInterfaceTest {
 
     @Test
     public void BrowseMenuOptionOutput() {
-        textIO tIO = new textIO(2);
-        HintDaoJdbc db = new HintDaoJdbc();
-        TextUserInterface tUI = new TextUserInterface(tIO, db);
-        tUI.display();
+        textIO tIO = new textIO(3);
+        new TextUserInterface(tIO).display();
+
 
         assertEquals("Selataan vinkkeja", tIO.outputs.get(2));
 
