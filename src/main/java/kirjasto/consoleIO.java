@@ -6,8 +6,8 @@ import java.util.Scanner;
 class ConsoleIO implements IO {
     private Scanner cInput;
 
-    public ConsoleIO() {
-        cInput = new Scanner(System.in);
+    public ConsoleIO(Scanner instream) {
+        cInput = instream;
     }
 
     public Scanner getcInput() {
