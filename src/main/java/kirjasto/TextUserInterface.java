@@ -15,7 +15,7 @@ public class TextUserInterface {
     public TextUserInterface(IO io, HintDaoJdbc db) {
         this.io = io;
         this.db = db;
-        this.useDB = false;
+        this.useDB = true;
     }
 
     public TextUserInterface(IO io) {
