@@ -2,6 +2,7 @@ package kirjasto;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 import database.*;
 
@@ -33,14 +34,20 @@ public class TextUserInterface {
         io.print("Lisättiin vinkki nimellä" + name + "\n"
                     + "Otsikko: " + linkki   );
     }
+
     private void remove() {
-
+        System.out.println("Minkä vinkin haluat poistaa? (Syötä id-numero)");
+        int delHint = Integer.valueOf(io.nextLine());
+        db.removeHint(delHint);
+        System.out.println("Vinkki " + delHint + " poistettu");
     }
+
     private void browse() {
-        io.print(db.getAllHints().toString());
-
-
+        for (String hint : db.getAllHints()) {
+            System.out.println(hint);
+        }
     }
+
     public boolean exit() {
         return this.endState;
     }
@@ -65,6 +72,7 @@ public class TextUserInterface {
                     break;
                 case 2:
                     io.print("Selataan vinkkeja");
+                    this.browse();
                     break;
                 case 3:
                     io.print("Poista vinkki");
