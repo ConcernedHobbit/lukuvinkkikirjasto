@@ -38,6 +38,10 @@ Testiraportti muodostuu polkuun `build/reports/test`
 **Testikattavuus**: `(gradle) test jacocoTestReport`  
 Testikattavuusraportti muodostuu polkuun `build/reports/jacoco/test`
 
+## Käyttöohje tekstikäyttöliittymään
+
+[Käyttöohje](https://github.com/ConcernedHobbit/lukuvinkkikirjasto/blob/main/doc/Usermanual.md)
+
 ## Hallinnolliset asiat
 
 - [Definition of Done](/doc/DefOfDone.md)
