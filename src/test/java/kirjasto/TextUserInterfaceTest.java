@@ -27,9 +27,8 @@ class textIO implements IO {
 
     public int nextInt() {return inputs[count++];}
 
-    @Override
     public String nextLine() {
-        return "haha";
+        return null;
     }
 
     public void print(String msg) {outputs.add(msg);}
@@ -56,7 +55,7 @@ public class TextUserInterfaceTest {
         textIO tIO = new textIO(2);
         new TextUserInterface(tIO).display();
 
-
+        //System.out.println(tIO.outputs.get(2));
         assertEquals("Selataan vinkkeja", tIO.outputs.get(2));
 
     }

@@ -31,15 +31,16 @@ public class TextUserInterface {
         io.print("Anna vinkin linkki");
         String linkki = io.nextLine();
         db.addHint(new Hint(name, linkki));
-        io.print("Lisättiin vinkki nimellä" + name + "\n"
-                    + "Otsikko: " + linkki   );
+        io.print("Lisättiin vinkki nimellä " + name +
+                     ", Otsikko: " + linkki   );
     }
 
     private void remove() {
-        System.out.println("Minkä vinkin haluat poistaa? (Syötä id-numero)");
-        int delHint = Integer.valueOf(io.nextLine());
+        io.print("Minkä vinkin haluat poistaa? (Syötä id-numero)");
+        io.nextLine();
+        int delHint = (io.nextInt());
         db.removeHint(delHint);
-        System.out.println("Vinkki " + delHint + " poistettu");
+        io.print("Vinkki " + delHint + " poistettu");
     }
 
     private void browse() {
@@ -72,11 +73,15 @@ public class TextUserInterface {
                     break;
                 case 2:
                     io.print("Selataan vinkkeja");
-                    this.browse();
+                    if (useDB) {
+                        this.browse();
+                    }
                     break;
                 case 3:
                     io.print("Poista vinkki");
-                    this.remove();
+                    if (useDB) {
+                        this.remove();
+                    }
                     break;
                 case 4:
                     io.print("exit");
