@@ -16,7 +16,7 @@
 3. Luodaan tiedosto `.env` ja lisätään sinne ympäristömuuttujat  
 
 ```
-URL=tietokannan osoite
+URL=tietokannan osoite (esim: URL=jdbc:postgresql://localhost:5432/lukuvinkkikirjasto)
 USER=psql käyttäjä
 PW=käyttäjän salasana
 ```
