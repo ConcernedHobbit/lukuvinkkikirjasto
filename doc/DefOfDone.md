@@ -6,7 +6,7 @@
 - Toteutus sisältää kattavat yksikkötestit.
 - Kaikki uudet yksikkötestit on suoritettu hyväksyttävästi.
 - Kaikki aikaisemmat yksikkötestit on suoritettu hyväksyttävästi.
-- Testien rivikattavuus muiden kuin triviaalifunktioiden osalta on 100%.
+- Testien rivikattavuus on 80%.
 - Muutokset on integroitu tuotteeseen.
 - Muutokset on uploadattu githubin repositorioon.
 - Github actions:n suorittamat testit menevät läpi.
