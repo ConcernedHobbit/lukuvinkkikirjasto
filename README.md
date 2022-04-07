@@ -46,5 +46,6 @@ Testikattavuusraportti muodostuu polkuun `build/reports/jacoco/test`
 
 - [Definition of Done](/doc/DefOfDone.md)
 - [Product backlog](https://github.com/ConcernedHobbit/lukuvinkkikirjasto/projects/1)
-- [Sprint backlog](https://github.com/ConcernedHobbit/lukuvinkkikirjasto/projects/2)
+- [Sprint1 backlog](https://github.com/ConcernedHobbit/lukuvinkkikirjasto/projects/2)
+- [Sprint2 backlog](https://github.com/ConcernedHobbit/lukuvinkkikirjasto/projects/3)
 - [Burndown](/doc/Burndown.png)
