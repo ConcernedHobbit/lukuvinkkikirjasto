@@ -21,7 +21,7 @@ public class HintDaoJdbc implements HintDao {
         ResultSet rs = ps.executeQuery();
 
         if (rs.next()) {
-            Hint temp = new Hint(rs.getString("header"), rs.getString("link"));
+            Hint temp = new Hint(rs.getString("header"), rs.getString("link"), rs.getString("author"), rs.getString("publisher"), rs.getInt("year"), rs.getInt("class"));
             DbUtils.closeQuietly(connector.getConnection(), ps, rs);
             return temp;
         } else {
@@ -46,7 +46,8 @@ public class HintDaoJdbc implements HintDao {
 
         while (rs.next()) {
             list.add("ID=" + rs.getInt("id") + " " +
-                    new Hint(rs.getString("header"), rs.getString("link")));
+            new Hint(rs.getString("header"), rs.getString("link"), rs.getString("author"), rs.getString("publisher"), rs.getInt("year"), rs.getInt("class")));
+//                    new Hint(rs.getString("header"), rs.getString("link")));
         }
         DbUtils.closeQuietly(connector.getConnection(), st, rs);
         return list;
@@ -56,9 +57,13 @@ public class HintDaoJdbc implements HintDao {
     @Override
     public void addHint(Hint hint) {
         Connector connector = new Connector();
-        PreparedStatement ps = connector.getConnection().prepareStatement("INSERT INTO hints VALUES (DEFAULT, ?,?)");
-        ps.setString(1, hint.getHeader());
-        ps.setString(2, hint.getLink());
+        PreparedStatement ps = connector.getConnection().prepareStatement("INSERT INTO hints VALUES (DEFAULT, ?,?,?,?,?,?)");
+        ps.setInt(1, hint.getHint_type());
+        ps.setInt(2, hint.getYear());
+        ps.setString(3, hint.getHeader());
+        ps.setString(4, hint.getLink());
+        ps.setString(5, hint.getAuthor());
+        ps.setString(6, hint.getPublisher());
         ps.executeUpdate();
         DbUtils.closeQuietly(connector.getConnection());
         DbUtils.closeQuietly(ps);

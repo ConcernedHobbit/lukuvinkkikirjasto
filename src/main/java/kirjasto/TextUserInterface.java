@@ -24,13 +24,29 @@ public class TextUserInterface {
     }
 
     private void add() {
+        String author = "";
+        String publisher = "";
+        int hint_type = 1; // basic
+        int year = 0;
         io.print("Vinkin lisäys: ");
+        io.print(("Anna vinkin tyyppi"));
+        io.print(("1 = nettisivu"));
+        io.print(("2 = kirja"));
+        hint_type = io.nextInt();
         io.print(("Anna vinkin otsikko"));
         io.nextLine();
         String name = io.nextLine();
         io.print("Anna vinkin linkki");
         String linkki = io.nextLine();
-        db.addHint(new Hint(name, linkki));
+        if (hint_type == 2) { // book
+            io.print(("Anna kirjoittaja"));
+            author = io.nextLine();
+            io.print(("Anna julkaisija"));
+            publisher = io.nextLine();
+            io.print(("Anna julkaisuvuosi"));
+            year = io.nextInt();
+        }
+        db.addHint(new Hint(name, linkki, author, publisher, year, hint_type));
         io.print("Lisättiin vinkki nimellä " + name +
                      ", Otsikko: " + linkki   );
     }

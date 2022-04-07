@@ -9,7 +9,7 @@ public class HintTest {
     
     @Before
     public void setUp() throws Exception {
-        hint = new Hint("Merge sort algorithm", "https://www.youtube.com/watch?v=TzeBrDU-JaY");
+        hint = new Hint("Merge sort algorithm", "https://www.youtube.com/watch?v=TzeBrDU-JaY", "", "", 0, 1);
     }
     
     @Test
