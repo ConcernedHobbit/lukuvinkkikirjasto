@@ -62,15 +62,23 @@ public class TextUserInterface {
 
     private void browse() {
         for (String hint : db.getAllHints()) {
-            System.out.println(hint);
+            io.print(hint);
         }
     }
 
     private void searchWithTag() {
         io.print("Syötä haettava tagi");
         for (String x : db.findTags(io.nextLine())) {
-            System.out.println(x);
+            io.print(x);
         }
+    }
+
+    private void addTagToExisting() {
+        io.print("Anna vinkin ID, jolle lisätään tagit");
+        int id = io.nextInt();
+        io.print("Lisää tägit, useampi tägi erotellaan pilkulla");
+        String tags = io.nextLine();
+        db.addTags(id, tags);
     }
 
     public boolean exit() {
@@ -83,7 +91,8 @@ public class TextUserInterface {
                 "2) Selaa vinkkeja \n" +
                 "3) Poista vinkki \n" +
                 "4) Sulje valikko\n" +
-                "7) Hae tagilla vinkkei.");
+                "7) Hae tagilla vinkkei\n" +
+                "8) Lisää tagi existing vinkille");
 
         io.print("Syota komento: ");
         int cmd = io.nextInt();
@@ -115,6 +124,9 @@ public class TextUserInterface {
                 break;
             case 7:
                 this.searchWithTag();
+                break;
+            case 8:
+                this.addTagToExisting();
                 break;
             default:
                 io.print("Vaara syote");

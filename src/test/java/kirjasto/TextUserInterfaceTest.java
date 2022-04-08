@@ -34,7 +34,8 @@ class textIO implements IO {
                 "2) Selaa vinkkeja \n" +
                 "3) Poista vinkki \n" +
                 "4) Sulje valikko\n" +
-                "7) Hae tagilla vinkkei.");
+                "7) Hae tagilla vinkkei\n" +
+                "8) Lisää tagi existing vinkille");
         this.expectedOutputs.add("Syota komento: ");
     }
 

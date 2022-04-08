@@ -98,7 +98,6 @@ public class HintDaoJdbc implements HintDao {
             if (x.trim().isBlank()) continue;
             ps.setString(2, x.trim());
             ps.executeUpdate();
-            System.out.println(x.trim());
         }
         DbUtils.closeQuietly(connector.getConnection());
         DbUtils.closeQuietly(ps);
