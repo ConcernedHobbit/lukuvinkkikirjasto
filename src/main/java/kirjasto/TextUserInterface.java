@@ -34,7 +34,7 @@ public class TextUserInterface {
         io.print(("2 = kirja"));
         hint_type = io.nextInt();
         io.print(("Anna vinkin otsikko"));
-        io.nextLine();
+//        io.nextLine();
         String name = io.nextLine();
         io.print("Anna vinkin linkki");
         String linkki = io.nextLine();
@@ -46,7 +46,9 @@ public class TextUserInterface {
             io.print(("Anna julkaisuvuosi"));
             year = io.nextInt();
         }
-        db.addHint(new Hint(name, linkki, author, publisher, year, hint_type));
+        if (useDB) {
+            db.addHint(new Hint(name, linkki, author, publisher, year, hint_type));
+        }
         io.print("Lisättiin vinkki nimellä " + name +
                      ", Otsikko: " + linkki   );
     }
@@ -83,9 +85,9 @@ public class TextUserInterface {
             switch(cmd) {
                 case 1:
                     io.print("Lisataan vinkki");
-                    if (useDB) {
+//                    if (useDB) {
                         this.add();
-                    }
+//                    }
                     break;
                 case 2:
                     io.print("Selataan vinkkeja");

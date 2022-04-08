@@ -15,7 +15,8 @@ class ConsoleIO implements IO {
     }
 
     public int nextInt() {
-        return cInput.nextInt();
+        return Integer.parseInt(cInput.nextLine());
+//        return cInput.nextInt();
     }
     public String nextLine() {return cInput.nextLine();}
 
