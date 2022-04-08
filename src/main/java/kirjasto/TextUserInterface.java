@@ -55,7 +55,7 @@ public class TextUserInterface {
 
     private void remove() {
         io.print("Minkä vinkin haluat poistaa? (Syötä id-numero)");
-        io.nextLine();
+//        io.nextLine();
         int delHint = (io.nextInt());
         db.removeHint(delHint);
         io.print("Vinkki " + delHint + " poistettu");
