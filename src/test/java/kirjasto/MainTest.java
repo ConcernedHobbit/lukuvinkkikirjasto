@@ -3,15 +3,14 @@
  */
 package kirjasto;
 
-import org.junit.*;
+
 import static org.junit.Assert.*;
 
 import org.junit.Test;
 
-import kirjasto.Main;
 
 public class MainTest {
-    @Test 
+    @Test
     public void appHasAGreeting() {
         Main classUnderTest = new Main();
         assertNotNull(classUnderTest.getGreeting(), "main should have a greeting");

@@ -60,7 +60,8 @@ public class HintDaoJdbc implements HintDao {
     @Override
     public Integer addHint(Hint hint) {
         Connector connector = new Connector();
-        PreparedStatement ps = connector.getConnection().prepareStatement("INSERT INTO hints VALUES (DEFAULT, ?,?,?,?,?,?) RETURNING id");
+        PreparedStatement ps = connector.getConnection().prepareStatement("INSERT INTO" +
+                " hints VALUES (DEFAULT, ?,?,?,?,?,?) RETURNING id");
         ps.setInt(1, hint.getHint_type());
         ps.setInt(2, hint.getYear());
         ps.setString(3, hint.getHeader());
@@ -101,5 +102,31 @@ public class HintDaoJdbc implements HintDao {
         }
         DbUtils.closeQuietly(connector.getConnection());
         DbUtils.closeQuietly(ps);
+    }
+
+    @SneakyThrows
+    @Override
+    public List<String> findTags(String tag) {
+        Connector connector = new Connector();
+        PreparedStatement ps = connector.getConnection().prepareStatement("SELECT * FROM" +
+                " hints h LEFT JOIN tags t ON h.id = t.hint WHERE tag=?");
+        ps.setString(1, tag);
+        ResultSet rs = ps.executeQuery();
+
+        if (rs.wasNull()) {
+            DbUtils.closeQuietly(connector.getConnection(), ps, rs);
+            return null;
+        }
+
+        ArrayList<String> list = new ArrayList<>();
+
+        while (rs.next()) {
+            list.add("ID=" + rs.getInt("id") + " " + new Hint(rs.getString("header"),
+                    rs.getString("link"), rs.getString("author"),
+                    rs.getString("publisher"), rs.getInt("year"),
+                    rs.getInt("class")));
+        }
+        DbUtils.closeQuietly(connector.getConnection(), ps, rs);
+        return list;
     }
 }

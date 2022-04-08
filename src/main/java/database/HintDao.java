@@ -15,4 +15,6 @@ public interface HintDao {
     void removeHint(int id);
 
     void addTags(int id, String tags);
+
+    List<String> findTags(String tag);
 }

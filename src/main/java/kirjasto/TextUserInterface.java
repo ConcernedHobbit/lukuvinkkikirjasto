@@ -66,6 +66,13 @@ public class TextUserInterface {
         }
     }
 
+    private void searchWithTag() {
+        io.print("Syötä haettava tagi");
+        for (String x : db.findTags(io.nextLine())) {
+            System.out.println(x);
+        }
+    }
+
     public boolean exit() {
         return this.endState;
     }
@@ -75,7 +82,8 @@ public class TextUserInterface {
                 "1) Lisaa vinkki \n" +
                 "2) Selaa vinkkeja \n" +
                 "3) Poista vinkki \n" +
-                "4) Sulje valikko");
+                "4) Sulje valikko\n" +
+                "7) Hae tagilla vinkkei.");
 
         io.print("Syota komento: ");
         int cmd = io.nextInt();
@@ -104,6 +112,9 @@ public class TextUserInterface {
                 io.print("exit");
                 this.endState = true;
                 this.exit();
+                break;
+            case 7:
+                this.searchWithTag();
                 break;
             default:
                 io.print("Vaara syote");
