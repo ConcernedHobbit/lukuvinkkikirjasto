@@ -10,8 +10,9 @@ public interface HintDao {
 
     List<String> getAllHints();
 
-    void addHint(Hint hint);
+    Integer addHint(Hint hint);
 
     void removeHint(int id);
 
+    void addTags(int id, String tags);
 }
