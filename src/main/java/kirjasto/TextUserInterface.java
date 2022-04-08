@@ -1,8 +1,5 @@
 package kirjasto;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
 
 import database.*;
 
@@ -47,16 +44,18 @@ public class TextUserInterface {
             year = io.nextInt();
         }
         if (useDB) {
-            db.addHint(new Hint(name, linkki, author, publisher, year, hint_type));
+            int id = db.addHint(new Hint(name, linkki, author, publisher, year, hint_type));
+            io.print("Lisää tagit vinkkiin ja erottele ne pilkulla tai jätä tyhjäksi");
+            String tags = io.nextLine();
+            if (!tags.isEmpty()) db.addTags(id, tags);
         }
         io.print("Lisättiin vinkki nimellä " + name +
-                     ", Otsikko: " + linkki   );
+                ", Otsikko: " + linkki);
     }
 
     private void remove() {
         io.print("Minkä vinkin haluat poistaa? (Syötä id-numero)");
-        io.nextLine();
-        int delHint = (io.nextInt());
+        int delHint = io.nextInt();
         db.removeHint(delHint);
         io.print("Vinkki " + delHint + " poistettu");
     }
@@ -78,40 +77,40 @@ public class TextUserInterface {
                 "3) Poista vinkki \n" +
                 "4) Sulje valikko");
 
-            io.print("Syota komento: ");
-            int cmd = io.nextInt();
+        io.print("Syota komento: ");
+        int cmd = io.nextInt();
 
 
-            switch(cmd) {
-                case 1:
-                    io.print("Lisataan vinkki");
+        switch (cmd) {
+            case 1:
+                io.print("Lisataan vinkki");
 //                    if (useDB) {
-                        this.add();
+                this.add();
 //                    }
-                    break;
-                case 2:
-                    io.print("Selataan vinkkeja");
-                    if (useDB) {
-                        this.browse();
-                    }
-                    break;
-                case 3:
-                    io.print("Poista vinkki");
-                    if (useDB) {
-                        this.remove();
-                    }
-                    break;
-                case 4:
-                    io.print("exit");
-                    this.endState = true;
-                    this.exit();
-                    break;
-                default:
-                    io.print("Vaara syote");
-
-            }
+                break;
+            case 2:
+                io.print("Selataan vinkkeja");
+                if (useDB) {
+                    this.browse();
+                }
+                break;
+            case 3:
+                io.print("Poista vinkki");
+                if (useDB) {
+                    this.remove();
+                }
+                break;
+            case 4:
+                io.print("exit");
+                this.endState = true;
+                this.exit();
+                break;
+            default:
+                io.print("Vaara syote");
 
         }
+
     }
+}
 
 
