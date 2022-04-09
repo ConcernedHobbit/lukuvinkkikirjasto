@@ -19,7 +19,8 @@ public class HintDaoJdbc implements HintDao {
     @Override
     public BookHint getBookHint(int id) {
         Connector connector = new Connector();
-        PreparedStatement ps = connector.getConnection().prepareStatement("SELECT * FROM hints LEFT JOIN book b on hints.id = b.hint WHERE b.id=?");
+        PreparedStatement ps = connector.getConnection().prepareStatement("SELECT * FROM hints " +
+                "LEFT JOIN book b on hints.id = b.hint WHERE b.hint=?");
         ps.setInt(1, id);
         ResultSet rs = ps.executeQuery();
 
@@ -39,7 +40,8 @@ public class HintDaoJdbc implements HintDao {
     @Override
     public VideoHint getVideoHint(int id) {
         Connector connector = new Connector();
-        PreparedStatement ps = connector.getConnection().prepareStatement("SELECT * FROM hints LEFT JOIN video v on hints.id = v.hint WHERE v.id=?");
+        PreparedStatement ps = connector.getConnection().prepareStatement("SELECT * FROM hints " +
+                "LEFT JOIN video v on hints.id = v.hint WHERE v.hint=?");
         ps.setInt(1, id);
         ResultSet rs = ps.executeQuery();
 
