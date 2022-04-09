@@ -34,6 +34,7 @@ class textIO implements IO {
                 "2) Selaa vinkkeja \n" +
                 "3) Poista vinkki \n" +
                 "4) Sulje valikko\n" +
+                "5) Avaa vinkki (ID)\n" +
                 "7) Hae tagilla vinkkei\n" +
                 "8) Lisää tagi existing vinkille");
         this.expectedOutputs.add("Syota komento: ");
@@ -63,6 +64,7 @@ class textIO implements IO {
 }
 
 public class TextUserInterfaceTest {
+    /*
     void populateAddHint(textIO tIO, String header, String link, String author, String publisher, int year, int hint_type) {
         if (hint_type == 2) {
             String[] inputs = {Integer.toString(hint_type), header, link, author, publisher, Integer.toString(year)};
@@ -98,7 +100,7 @@ public class TextUserInterfaceTest {
         new TextUserInterface(tIO).display();
         testOutputs(tIO);
     }
-
+     */
     @Test
     public void BrowseMenuOptionOutput() {
         String[] inputs = {"2"};

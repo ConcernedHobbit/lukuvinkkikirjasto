@@ -1,6 +1,9 @@
 package database;
 
+import kirjasto.BookHint;
 import kirjasto.Hint;
+import kirjasto.HintType;
+import kirjasto.VideoHint;
 import lombok.SneakyThrows;
 import org.apache.commons.dbutils.DbUtils;
 
@@ -14,16 +17,36 @@ public class HintDaoJdbc implements HintDao {
 
     @SneakyThrows
     @Override
-    public Hint getHint(int id) {
+    public BookHint getBookHint(int id) {
         Connector connector = new Connector();
-        PreparedStatement ps = connector.getConnection().prepareStatement("SELECT * FROM hints WHERE id=?");
+        PreparedStatement ps = connector.getConnection().prepareStatement("SELECT * FROM hints LEFT JOIN book b on hints.id = b.hint WHERE b.id=?");
         ps.setInt(1, id);
         ResultSet rs = ps.executeQuery();
 
         if (rs.next()) {
-            Hint temp = new Hint(rs.getString("header"), rs.getString("link"),
-                    rs.getString("author"), rs.getString("publisher"),
-                    rs.getInt("year"), rs.getInt("class"));
+            BookHint temp = new BookHint(rs.getString("header"),
+                    HintType.valueOf(rs.getString("type")), rs.getString("author"),
+                    rs.getString("publisher"), rs.getInt("year"));
+            DbUtils.closeQuietly(connector.getConnection(), ps, rs);
+            return temp;
+        } else {
+            DbUtils.closeQuietly(connector.getConnection(), ps, rs);
+            return null;
+        }
+    }
+
+    @SneakyThrows
+    @Override
+    public VideoHint getVideoHint(int id) {
+        Connector connector = new Connector();
+        PreparedStatement ps = connector.getConnection().prepareStatement("SELECT * FROM hints LEFT JOIN video v on hints.id = v.hint WHERE v.id=?");
+        ps.setInt(1, id);
+        ResultSet rs = ps.executeQuery();
+
+        if (rs.next()) {
+            VideoHint temp = new VideoHint(rs.getString("header"),
+                    HintType.valueOf(rs.getString("type")), rs.getString("url"),
+                    rs.getString("comment"));
             DbUtils.closeQuietly(connector.getConnection(), ps, rs);
             return temp;
         } else {
@@ -48,9 +71,7 @@ public class HintDaoJdbc implements HintDao {
 
         while (rs.next()) {
             list.add("ID=" + rs.getInt("id") + " " + new Hint(rs.getString("header"),
-                    rs.getString("link"), rs.getString("author"),
-                    rs.getString("publisher"), rs.getInt("year"),
-                    rs.getInt("class")));
+                    HintType.valueOf(rs.getString("type"))));
         }
         DbUtils.closeQuietly(connector.getConnection(), st, rs);
         return list;
@@ -58,16 +79,34 @@ public class HintDaoJdbc implements HintDao {
 
     @SneakyThrows
     @Override
-    public Integer addHint(Hint hint) {
+    public Integer addBookHint(BookHint hint) {
         Connector connector = new Connector();
-        PreparedStatement ps = connector.getConnection().prepareStatement("INSERT INTO" +
-                " hints VALUES (DEFAULT, ?,?,?,?,?,?) RETURNING id");
-        ps.setInt(1, hint.getHint_type());
-        ps.setInt(2, hint.getYear());
-        ps.setString(3, hint.getHeader());
-        ps.setString(4, hint.getLink());
-        ps.setString(5, hint.getAuthor());
-        ps.setString(6, hint.getPublisher());
+        PreparedStatement ps = connector.getConnection().prepareStatement("WITH hintbase AS (INSERT INTO hints " +
+                "VALUES (DEFAULT, ?,?) RETURNING id) INSERT INTO book (hint, author, publisher, year) " +
+                "SELECT id, ?, ?, ? FROM hintbase RETURNING hint");
+        ps.setString(1, hint.getHeader());
+        ps.setString(2, hint.getType().name());
+        ps.setString(3, hint.getAuthor());
+        ps.setString(4, hint.getPublisher());
+        ps.setInt(5, hint.getYear());
+        ResultSet rs = ps.executeQuery();
+        rs.next();
+        int returnable = rs.getInt(1);
+        DbUtils.closeQuietly(connector.getConnection(), ps, rs);
+        return returnable;
+    }
+
+    @SneakyThrows
+    @Override
+    public Integer addVideoHint(VideoHint hint) {
+        Connector connector = new Connector();
+        PreparedStatement ps = connector.getConnection().prepareStatement("WITH hintbase AS (INSERT INTO hints " +
+                "VALUES (DEFAULT, ?,?) RETURNING id) INSERT INTO video (hint, url, comment) " +
+                "SELECT id, ?, ? FROM hintbase RETURNING hint");
+        ps.setString(1, hint.getHeader());
+        ps.setString(2, hint.getType().name());
+        ps.setString(3, hint.getUrl());
+        ps.setString(4, hint.getComment());
         ResultSet rs = ps.executeQuery();
         rs.next();
         int returnable = rs.getInt(1);
@@ -121,11 +160,22 @@ public class HintDaoJdbc implements HintDao {
 
         while (rs.next()) {
             list.add("ID=" + rs.getInt("id") + " " + new Hint(rs.getString("header"),
-                    rs.getString("link"), rs.getString("author"),
-                    rs.getString("publisher"), rs.getInt("year"),
-                    rs.getInt("class")));
+                    HintType.valueOf(rs.getString("type"))));
         }
         DbUtils.closeQuietly(connector.getConnection(), ps, rs);
         return list;
+    }
+
+    @SneakyThrows
+    @Override
+    public HintType getHintType(int id) {
+        Connector connector = new Connector();
+        PreparedStatement ps = connector.getConnection().prepareStatement("SELECT type FROM hints WHERE id=?");
+        ps.setInt(1, id);
+        ResultSet rs = ps.executeQuery();
+        rs.next();
+        HintType type = HintType.valueOf(rs.getString("type"));
+        DbUtils.closeQuietly(connector.getConnection(), ps, rs);
+        return type;
     }
 }

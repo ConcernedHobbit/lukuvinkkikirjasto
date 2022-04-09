@@ -21,36 +21,43 @@ public class TextUserInterface {
     }
 
     private void add() {
-        String author = "";
-        String publisher = "";
-        int hint_type = 1; // basic
-        int year = 0;
+        if (!useDB) return;
+
         io.print("Vinkin lisäys: ");
         io.print(("Anna vinkin tyyppi"));
-        io.print(("1 = nettisivu"));
+        io.print(("1 = video"));
         io.print(("2 = kirja"));
-        hint_type = io.nextInt();
+        HintType type = io.nextInt() == 1 ? HintType.VIDEO : HintType.BOOK;
         io.print(("Anna vinkin otsikko"));
-//        io.nextLine();
         String name = io.nextLine();
-        io.print("Anna vinkin linkki");
-        String linkki = io.nextLine();
-        if (hint_type == 2) { // book
-            io.print(("Anna kirjoittaja"));
-            author = io.nextLine();
-            io.print(("Anna julkaisija"));
-            publisher = io.nextLine();
-            io.print(("Anna julkaisuvuosi"));
-            year = io.nextInt();
+        int id = 0;
+        switch (type) {
+            case BOOK:
+                io.print(("Anna kirjoittaja"));
+                String author = io.nextLine();
+                io.print(("Anna julkaisija"));
+                String publisher = io.nextLine();
+                io.print(("Anna julkaisuvuosi"));
+                int year = io.nextInt();
+                id = db.addBookHint(new BookHint(name, type, author, publisher, year));
+                break;
+            case VIDEO:
+                io.print("Anna url");
+                String url = io.nextLine();
+                io.print("Anna kommentti");
+                String comment = io.nextLine();
+                id = db.addVideoHint(new VideoHint(name, type, url, comment));
+                break;
+            case BLOGPOST:
+                break;
+            case PODCAST:
+                break;
         }
-        if (useDB) {
-            int id = db.addHint(new Hint(name, linkki, author, publisher, year, hint_type));
-            io.print("Lisää tagit vinkkiin ja erottele ne pilkulla tai jätä tyhjäksi");
-            String tags = io.nextLine();
-            if (!tags.isEmpty()) db.addTags(id, tags);
-        }
+        io.print("Lisää tagit vinkkiin ja erottele ne pilkulla tai jätä tyhjäksi");
+        String tags = io.nextLine();
+        if (!tags.isEmpty()) db.addTags(id, tags);
         io.print("Lisättiin vinkki nimellä " + name +
-                ", Otsikko: " + linkki);
+                ", Tyyppi: " + type);
     }
 
     private void remove() {
@@ -63,6 +70,23 @@ public class TextUserInterface {
     private void browse() {
         for (String hint : db.getAllHints()) {
             io.print(hint);
+        }
+    }
+
+    private void openHint() {
+        io.print("Syötä avattavan vinkin ID");
+        int id = io.nextInt();
+        switch (db.getHintType(id)) {
+            case PODCAST:
+                break;
+            case BLOGPOST:
+                break;
+            case VIDEO:
+                System.out.println(db.getVideoHint(id));
+                break;
+            case BOOK:
+                System.out.println(db.getBookHint(id));
+                break;
         }
     }
 
@@ -91,6 +115,7 @@ public class TextUserInterface {
                 "2) Selaa vinkkeja \n" +
                 "3) Poista vinkki \n" +
                 "4) Sulje valikko\n" +
+                "5) Avaa vinkki (ID)\n" +
                 "7) Hae tagilla vinkkei\n" +
                 "8) Lisää tagi existing vinkille");
 
@@ -101,9 +126,7 @@ public class TextUserInterface {
         switch (cmd) {
             case 1:
                 io.print("Lisataan vinkki");
-//                    if (useDB) {
                 this.add();
-//                    }
                 break;
             case 2:
                 io.print("Selataan vinkkeja");
@@ -121,6 +144,9 @@ public class TextUserInterface {
                 io.print("exit");
                 this.endState = true;
                 this.exit();
+                break;
+            case 5:
+                this.openHint();
                 break;
             case 7:
                 this.searchWithTag();

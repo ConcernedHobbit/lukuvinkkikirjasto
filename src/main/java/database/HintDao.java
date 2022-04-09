@@ -1,20 +1,28 @@
 package database;
 
-import kirjasto.Hint;
+import kirjasto.BookHint;
+import kirjasto.HintType;
+import kirjasto.VideoHint;
 
 import java.util.List;
 
 public interface HintDao {
 
-    Hint getHint(int id);
+    BookHint getBookHint(int id);
+
+    VideoHint getVideoHint(int id);
 
     List<String> getAllHints();
 
-    Integer addHint(Hint hint);
+    Integer addBookHint(BookHint hint);
+
+    Integer addVideoHint(VideoHint hint);
 
     void removeHint(int id);
 
     void addTags(int id, String tags);
 
     List<String> findTags(String tag);
+
+    HintType getHintType(int id);
 }

@@ -7,21 +7,21 @@ import io.cucumber.java.en.Then;
 import static org.junit.Assert.*;
 
 public class StepDefs {
-    Hint hint;
+    VideoHint videoHint;
 
     @Given("Hint is initialized")
     public void hintIsInitialized() {
-        hint = new Hint("header", "link", "author", "publisher", 2022, 1);
+        videoHint = new VideoHint("header", HintType.VIDEO, "link", "comment");
     }
 
     @When("it is given header {word}")
     public void itIsGivenHeader(String str) {
-        hint.setHeader(str);
+        videoHint.setHeader(str);
     }
 
     @Then("the header should be {word}")
     public void theHeaderShouldBe(String str) {
-        assertEquals(str, hint.getHeader());
+        assertEquals(str, videoHint.getHeader());
     }
 
 }
