@@ -17,6 +17,7 @@ public class Connector {
         Dotenv dotenv = Dotenv.load();
 
         Class.forName("org.postgresql.Driver");
-        this.connection = DriverManager.getConnection(dotenv.get("URL"), dotenv.get("USER"), dotenv.get("PW"));
+        this.connection = DriverManager.getConnection(dotenv.get("URL"),
+                dotenv.get("USER"), dotenv.get("PW"));
     }
 }

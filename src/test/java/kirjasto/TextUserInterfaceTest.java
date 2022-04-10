@@ -29,14 +29,15 @@ class textIO implements IO {
     }
 
     public void populateMenu() {
-        this.expectedOutputs.add("Tervetuloa lukuvinkkikirjastoon! Sallitut komennot: \n" +
-                "1) Lisaa vinkki \n" +
-                "2) Selaa vinkkeja \n" +
-                "3) Poista vinkki \n" +
-                "4) Sulje valikko\n" +
-                "5) Avaa vinkki (ID)\n" +
-                "7) Hae tagilla vinkkei\n" +
-                "8) Lisää tagi existing vinkille");
+        this.expectedOutputs.add(
+                "Tervetuloa lukuvinkkikirjastoon! Sallitut komennot: \n" +
+                        "1) Lisaa vinkki \n" +
+                        "2) Selaa vinkkeja \n" +
+                        "3) Poista vinkki \n" +
+                        "4) Sulje valikko\n" +
+                        "5) Avaa vinkki (ID)\n" +
+                        "7) Hae tagilla vinkkei\n" +
+                        "8) Lisää tagi existing vinkille");
         this.expectedOutputs.add("Syota komento: ");
     }
 
@@ -102,7 +103,7 @@ public class TextUserInterfaceTest {
     }
      */
     @Test
-    public void BrowseMenuOptionOutput() {
+    public void browseMenuOptionOutput() {
         String[] inputs = {"2"};
         String[] outputs = {"Selataan vinkkeja"};
         textIO tIO = new textIO(inputs, outputs);
@@ -114,7 +115,7 @@ public class TextUserInterfaceTest {
     }
 
     @Test
-    public void RemoveMenuOptionOutput() {
+    public void removeMenuOptionOutput() {
         String[] inputs = {"3"};
         String[] outputs = {"Poista vinkki"};
         textIO tIO = new textIO(inputs, outputs);
@@ -125,7 +126,7 @@ public class TextUserInterfaceTest {
     }
 
     @Test
-    public void ExitMenuOptionOutput() {
+    public void exitMenuOptionOutput() {
         String[] inputs = {"4"};
         String[] outputs = {"exit"};
         textIO tIO = new textIO(inputs, outputs);
@@ -134,7 +135,7 @@ public class TextUserInterfaceTest {
     }
 
     @Test
-    public void DefaultMenuOptionOutput() {
+    public void defaultMenuOptionOutput() {
         String[] inputs = {"101010"};
         String[] outputs = {"Vaara syote"};
         textIO tIO = new textIO(inputs, outputs);

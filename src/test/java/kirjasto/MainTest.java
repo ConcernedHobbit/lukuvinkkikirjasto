@@ -13,6 +13,7 @@ public class MainTest {
     @Test
     public void appHasAGreeting() {
         Main classUnderTest = new Main();
-        assertNotNull(classUnderTest.getGreeting(), "main should have a greeting");
+        assertNotNull(classUnderTest.getGreeting(),
+                "main should have a greeting");
     }
 }
