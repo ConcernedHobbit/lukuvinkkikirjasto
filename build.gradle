@@ -13,8 +13,13 @@ plugins {
     id 'jacoco'
 
     id "io.freefair.lombok" version "6.4.1"
+
+    id "checkstyle"
+
 }
 
+compileJava.options.encoding = "UTF-8"
+compileTestJava.options.encoding = "UTF-8"
 repositories {
     // Use Maven Central for resolving dependencies.
     mavenCentral()
@@ -59,4 +64,11 @@ jacocoTestReport {
         xml.enabled true
         html.enabled true
     }
+
+checkstyle {
+    checkstyleTest.enabled = false
 }
+
+}
+
+

@@ -5,7 +5,7 @@ import database.*;
 
 public class TextUserInterface {
 
-    private IO io;
+    private final IO io;
     private HintDaoJdbc db;
     private boolean endState = false;
     private boolean useDB = false;
@@ -39,7 +39,8 @@ public class TextUserInterface {
                 String publisher = io.nextLine();
                 io.print(("Anna julkaisuvuosi"));
                 int year = io.nextInt();
-                id = db.addBookHint(new BookHint(name, type, author, publisher, year));
+                id = db.addBookHint(
+                        new BookHint(name, type, author, publisher, year));
                 break;
             case VIDEO:
                 io.print("Anna url");
@@ -53,7 +54,8 @@ public class TextUserInterface {
             case PODCAST:
                 break;
         }
-        io.print("Lisää tagit vinkkiin ja erottele ne pilkulla tai jätä tyhjäksi");
+        io.print(
+                "Lisää tagit vinkkiin ja erottele ne pilkulla tai jätä tyhjäksi");
         String tags = io.nextLine();
         if (!tags.isEmpty()) db.addTags(id, tags);
         io.print("Lisättiin vinkki nimellä " + name +

@@ -4,7 +4,7 @@ import java.util.Scanner;
 
 
 class ConsoleIO implements IO {
-    private Scanner cInput;
+    private final Scanner cInput;
 
     public ConsoleIO(Scanner instream) {
         cInput = instream;

@@ -18,6 +18,7 @@ public class VideoHint extends Hint {
 
     @Override
     public String toString() {
-        return super.toString() + "\nURL: " + this.url + "\nComment: " + this.comment;
+        return super.toString() + "\nURL: " + this.url + "\nComment: " +
+                this.comment;
     }
 }
