@@ -27,9 +27,12 @@ public class TextUserInterface {
         io.print(("Anna vinkin tyyppi"));
         io.print(("1 = video"));
         io.print(("2 = kirja"));
+
         HintType type = io.nextInt() == 1 ? HintType.VIDEO : HintType.BOOK;
         io.print(("Anna vinkin otsikko"));
+
         String name = io.nextLine();
+
         int id = 0;
         switch (type) {
             case BOOK:
@@ -38,29 +41,50 @@ public class TextUserInterface {
                 io.print(("Anna julkaisija"));
                 String publisher = io.nextLine();
                 io.print(("Anna julkaisuvuosi"));
+
                 int year = io.nextInt();
                 id = db.addBookHint(
                         new BookHint(name, type, author, publisher, year));
+                tagOption(id, name, HintType.BOOK);
                 break;
+
             case VIDEO:
                 io.print("Anna url");
                 String url = io.nextLine();
                 io.print("Anna kommentti");
                 String comment = io.nextLine();
                 id = db.addVideoHint(new VideoHint(name, type, url, comment));
+                tagOption(id, name, HintType.VIDEO);
                 break;
             case BLOGPOST:
                 break;
             case PODCAST:
                 break;
         }
-        io.print(
-                "Lisää tagit vinkkiin ja erottele ne pilkulla tai jätä tyhjäksi");
-        String tags = io.nextLine();
-        if (!tags.isEmpty()) db.addTags(id, tags);
-        io.print("Lisättiin vinkki nimellä " + name +
-                ", Tyyppi: " + type);
+
     }
+
+    private void tagOption(int id, String name,
+                          HintType type) {
+
+        io.print("Haluatko lisata tageja vinkille? 1 = kylla 0 = ei");
+        int ans = io.nextInt();
+        if (ans == 1) {
+            io.print(
+                    "Lisää tagit vinkkiin ja erottele ne pilkulla tai jätä tyhjäksi");
+            String tags = io.nextLine();
+            if (!tags.isEmpty()) db.addTags(id, tags);
+        }
+        io.print("Lisättiin vinkki nimellä " + name + ", Tyyppi: " + type);
+        }
+
+
+
+
+
+
+
+
 
     private void remove() {
         io.print("Minkä vinkin haluat poistaa? (Syötä id-numero)");
