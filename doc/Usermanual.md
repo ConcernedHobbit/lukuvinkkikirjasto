@@ -37,4 +37,4 @@ Vinkkejä voi selata valitsemalla 2) Selaa vinkkeja
 
 ## Sovelluksesta poistuminen
 
-Käyttäjä voi poistua sovelluksesta valitsemalla 4) Sulje valikko
+Käyttäjä voi poistua sovelluksesta valitsemalla 4) Lopeta

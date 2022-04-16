@@ -140,7 +140,7 @@ public class TextUserInterface {
                 "1) Lisaa vinkki \n" +
                 "2) Selaa vinkkeja \n" +
                 "3) Poista vinkki \n" +
-                "4) Sulje valikko\n" +
+                "4) Lopeta\n" +
                 "5) Avaa vinkki (ID)\n" +
                 "7) Hae tagilla vinkkei\n" +
                 "8) Lisää tagi existing vinkille");
