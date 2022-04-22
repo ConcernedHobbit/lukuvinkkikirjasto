@@ -43,6 +43,7 @@ class textIO implements IO {
             this.inputs.add(i);
         }
     }
+
     public void populateMenu() {
         this.expectedOutputs.add(
                 "Tervetuloa lukuvinkkikirjastoon! Sallitut komennot: \n" +
@@ -80,8 +81,6 @@ class textIO implements IO {
 }
 
 public class TextUserInterfaceTest {
-
-
 
     /*
     void populateAddHint(textIO tIO, String header, String link, String author, String publisher, int year, int hint_type) {
@@ -129,7 +128,6 @@ public class TextUserInterfaceTest {
 
 
     @Before
-
     public void setup() {
         mockDao = mock(HintDaoJdbc.class);
         testVideo = new VideoHint("testVideo", HintType.VIDEO,
@@ -140,7 +138,6 @@ public class TextUserInterfaceTest {
         hints.add("test");
         videoTag = "hieno video";
 
-
         when(mockDao.getBookHint(1)).thenReturn(testBook);
         when(mockDao.getAllHints()).thenReturn(hints);
         when(mockDao.addBookHint(testBook)).thenReturn(1);
@@ -149,18 +146,13 @@ public class TextUserInterfaceTest {
         when(mockDao.getHintType(2)).thenReturn(HintType.BOOK);
         when(mockDao.findTags("nice")).thenReturn(hints);
         //Mockito.doNothing().when(mockDao).removeHint(any());
-
-
-
-
-
     }
 
     @Test
     public void addBookHintOptionOutputWithoutTags() {
         String[] inputs = {"1", "2", "testBook", "testAuth", "testPub", "2000", "0"};
         String[] outputs = {"lisataan vinkki", "Vinkin lisäys: ",
-                "Anna vinkin tyyppi", "1 = video", "2 = kirja",
+                "Anna vinkin tyyppi", "1 = video", "2 = kirja", "3 = blogpost", "4 = podcast",
                 "Anna vinkin otsikko", "Anna kirjoittaja", "Anna julkaisija",
                 "Anna julkaisuvuosi", "Haluatko lisata tageja vinkille? 1 = kylla 0 = ei",
                 "Lisättiin vinkki nimellä testBook, Tyyppi: KIRJA"
@@ -177,9 +169,9 @@ public class TextUserInterfaceTest {
     public void addVideoHintOptionOutputWithoutTags() {
         String[] inputs = {"1", "1", "testVideo", "test.com", "cool", "0"};
         String[] outputs = {"lisataan vinkki", "Vinkin lisäys: ",
-                "Anna vinkin tyyppi", "1 = video", "2 = kirja",
+                "Anna vinkin tyyppi", "1 = video", "2 = kirja", "3 = blogpost", "4 = podcast",
                 "Anna vinkin otsikko", "Anna url", "Anna kommentti", "Haluatko lisata tageja vinkille? 1 = kylla 0 = ei",
-                "Lisättiin vinkki nimellä testVideo, Tyyppi: VIDEO" };
+                "Lisättiin vinkki nimellä testVideo, Tyyppi: VIDEO"};
         //"1 = video", "2 = kirja", "lol"};
         textIO tIO = new textIO(inputs, outputs);
         new TextUserInterface(tIO, mockDao).display();
@@ -190,18 +182,18 @@ public class TextUserInterfaceTest {
 
     @Test
     public void addVideoWithTags() {
-        String [] inputs = {"1", "1", "testVideo", "test.com", "cool", "1","hieno video"};
+        String[] inputs = {"1", "1", "testVideo", "test.com", "cool", "1", "hieno video"};
         String[] outputs = {"lisataan vinkki", "Vinkin lisäys: ",
-                "Anna vinkin tyyppi", "1 = video", "2 = kirja",
+                "Anna vinkin tyyppi", "1 = video", "2 = kirja", "3 = blogpost", "4 = podcast",
                 "Anna vinkin otsikko", "Anna url", "Anna kommentti",
                 "Haluatko lisata tageja vinkille? 1 = kylla 0 = ei",
                 "Lisää tägit vinkkiin ja erottele ne pilkulla tai jätä tyhjäksi",
-                "Lisättiin vinkki nimellä testVideo, Tyyppi: VIDEO" };
+                "Lisättiin vinkki nimellä testVideo, Tyyppi: VIDEO"};
 
         textIO tIO = new textIO(inputs, outputs);
         new TextUserInterface(tIO, mockDao).display();
         testOutputLength(tIO);
-        verify(mockDao, times(1)).addTags(1,"hieno video");
+        verify(mockDao, times(1)).addTags(1, "hieno video");
 
     }
 
@@ -262,6 +254,7 @@ public class TextUserInterfaceTest {
         //testOutputEquality(tIO);
 
     }
+
     @Test
     public void testTagSearch() {
         String[] inputs = {"7", "nice"};
@@ -277,7 +270,7 @@ public class TextUserInterfaceTest {
     public void addTagstoExisting() {
         String[] inputs = {"8", "1", "cool"};
         String[] outputs = {"Anna vinkin ID, jolle lisätään tagit",
-        "Lisää tägit, useampi tägi erotellaan pilkulla"};
+                "Lisää tägit, useampi tägi erotellaan pilkulla"};
         textIO tIO = new textIO(inputs, outputs);
         new TextUserInterface(tIO, mockDao).display();
         verify(mockDao, times(1)).addTags(1, "cool");
@@ -293,7 +286,6 @@ public class TextUserInterfaceTest {
         assertEquals(tIO.outputs.size(), tIO.expectedOutputs.size());
     }
 
-
     public void testOutputEquality(textIO tIO) {
 
         boolean iterEqual = false;
@@ -305,10 +297,8 @@ public class TextUserInterfaceTest {
                 iterEqual = false;
             }
         }
-            assertTrue(iterEqual);
-
-        }
-
+        assertTrue(iterEqual);
+    }
 }
 
 

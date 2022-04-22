@@ -1,9 +1,6 @@
 package database;
 
-import kirjasto.BookHint;
-import kirjasto.Hint;
-import kirjasto.HintType;
-import kirjasto.VideoHint;
+import kirjasto.*;
 import lombok.SneakyThrows;
 import org.apache.commons.dbutils.DbUtils;
 
@@ -63,6 +60,50 @@ public class HintDaoJdbc implements HintDao {
 
     @SneakyThrows
     @Override
+    public BlogHint getBlogHint(int id) {
+        Connector connector = new Connector();
+        PreparedStatement ps = connector.getConnection()
+                .prepareStatement("SELECT * FROM hints " +
+                        "LEFT JOIN blog b on hints.id = b.hint WHERE b.hint=?");
+        ps.setInt(1, id);
+        ResultSet rs = ps.executeQuery();
+
+        if (rs.next()) {
+            BlogHint temp = new BlogHint(rs.getString("header"),
+                    HintType.valueOf(rs.getString("type")), rs.getString("author"),
+                    rs.getString("url"));
+            DbUtils.closeQuietly(connector.getConnection(), ps, rs);
+            return temp;
+        } else {
+            DbUtils.closeQuietly(connector.getConnection(), ps, rs);
+            return null;
+        }
+    }
+
+    @SneakyThrows
+    @Override
+    public PodcastHint getPodcastHint(int id) {
+        Connector connector = new Connector();
+        PreparedStatement ps = connector.getConnection()
+                .prepareStatement("SELECT * FROM hints " +
+                        "LEFT JOIN podcast p on hints.id = p.hint WHERE p.hint=?");
+        ps.setInt(1, id);
+        ResultSet rs = ps.executeQuery();
+
+        if (rs.next()) {
+            PodcastHint temp = new PodcastHint(rs.getString("header"),
+                    HintType.valueOf(rs.getString("type")), rs.getString("author"),
+                    rs.getString("name"), rs.getString("description"));
+            DbUtils.closeQuietly(connector.getConnection(), ps, rs);
+            return temp;
+        } else {
+            DbUtils.closeQuietly(connector.getConnection(), ps, rs);
+            return null;
+        }
+    }
+
+    @SneakyThrows
+    @Override
     public List<String> getAllHints() {
         Connector connector = new Connector();
         Statement st = connector.getConnection().createStatement();
@@ -106,6 +147,26 @@ public class HintDaoJdbc implements HintDao {
 
     @SneakyThrows
     @Override
+    public Integer addPodcastHint(PodcastHint hint) {
+        Connector connector = new Connector();
+        PreparedStatement ps = connector.getConnection()
+                .prepareStatement("WITH hintbase AS (INSERT INTO hints " +
+                        "VALUES (DEFAULT, ?,?) RETURNING id) INSERT INTO podcast (hint, author, name, description) " +
+                        "SELECT id, ?, ?, ? FROM hintbase RETURNING hint");
+        ps.setString(1, hint.getHeader());
+        ps.setString(2, hint.getType().name());
+        ps.setString(3, hint.getAuthor());
+        ps.setString(4, hint.getName());
+        ps.setString(5, hint.getDescription());
+        ResultSet rs = ps.executeQuery();
+        rs.next();
+        int returnable = rs.getInt(1);
+        DbUtils.closeQuietly(connector.getConnection(), ps, rs);
+        return returnable;
+    }
+
+    @SneakyThrows
+    @Override
     public Integer addVideoHint(VideoHint hint) {
         Connector connector = new Connector();
         PreparedStatement ps = connector.getConnection()
@@ -116,6 +177,25 @@ public class HintDaoJdbc implements HintDao {
         ps.setString(2, hint.getType().name());
         ps.setString(3, hint.getUrl());
         ps.setString(4, hint.getComment());
+        ResultSet rs = ps.executeQuery();
+        rs.next();
+        int returnable = rs.getInt(1);
+        DbUtils.closeQuietly(connector.getConnection(), ps, rs);
+        return returnable;
+    }
+
+    @SneakyThrows
+    @Override
+    public Integer addBlogHint(BlogHint hint) {
+        Connector connector = new Connector();
+        PreparedStatement ps = connector.getConnection()
+                .prepareStatement("WITH hintbase AS (INSERT INTO hints " +
+                        "VALUES (DEFAULT, ?,?) RETURNING id) INSERT INTO blog (hint, author, url) " +
+                        "SELECT id, ?, ? FROM hintbase RETURNING hint");
+        ps.setString(1, hint.getHeader());
+        ps.setString(2, hint.getType().name());
+        ps.setString(3, hint.getAuthor());
+        ps.setString(4, hint.getUrl());
         ResultSet rs = ps.executeQuery();
         rs.next();
         int returnable = rs.getInt(1);

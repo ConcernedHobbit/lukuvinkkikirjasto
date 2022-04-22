@@ -22,51 +22,83 @@ public class TextUserInterface {
 
     private void add() {
         if (!useDB) return;
-
         io.print("Vinkin lisäys: ");
-        io.print(("Anna vinkin tyyppi"));
-        io.print(("1 = video"));
-        io.print(("2 = kirja"));
-
-        HintType type = io.nextInt() == 1 ? HintType.VIDEO : HintType.BOOK;
-        io.print(("Anna vinkin otsikko"));
-
-        String name = io.nextLine();
-
-        int id = 0;
-        switch (type) {
-            case BOOK:
-                io.print(("Anna kirjoittaja"));
-                String author = io.nextLine();
-                io.print(("Anna julkaisija"));
-                String publisher = io.nextLine();
-                io.print(("Anna julkaisuvuosi"));
-
-                int year = io.nextInt();
-                id = db.addBookHint(
-                        new BookHint(name, type, author, publisher, year));
-                tagOption(id, name, HintType.BOOK);
-                break;
-
-            case VIDEO:
-                io.print("Anna url");
-                String url = io.nextLine();
-                io.print("Anna kommentti");
-                String comment = io.nextLine();
-                id = db.addVideoHint(new VideoHint(name, type, url, comment));
-                tagOption(id, name, HintType.VIDEO);
-                break;
-            case BLOGPOST:
-                break;
-            case PODCAST:
-                break;
-        }
-
+        io.print("Anna vinkin tyyppi");
+        io.print("1 = video");
+        io.print("2 = kirja");
+        io.print("3 = blogpost");
+        io.print("4 = podcast");
+        int i = io.nextInt();
+        selector(i);
     }
 
-    private void tagOption(int id, String name,
-                          HintType type) {
+    private void selector(int i) {
+        HintType type = (i == 1 || i == 2) ? i == 1 ? HintType.VIDEO :
+                HintType.BOOK : i == 3 ? HintType.BLOGPOST : HintType.PODCAST;
+        io.print("Anna vinkin otsikko");
+        String name = io.nextLine();
+        switch (type) {
+            case BOOK:
+                book(type, name);
+                break;
+            case VIDEO:
+                video(type, name);
+                break;
+            case BLOGPOST:
+                blog(type, name);
+                break;
+            case PODCAST:
+                podcast(type, name);
+        }
+    }
 
+    private void blog(HintType type, String name) {
+        int id;
+        io.print("Anna kirjoittaja");
+        String author = io.nextLine();
+        io.print("Anna url");
+        String url = io.nextLine();
+        id = db.addBlogHint(new BlogHint(name, type, author, url));
+        tagOption(id, name, HintType.BLOGPOST);
+    }
+
+    private void podcast(HintType type, String name) {
+        int id;
+        io.print("Anna kirjoittaja");
+        String author = io.nextLine();
+        io.print("Anna podcastin nimi");
+        String publisher = io.nextLine();
+        io.print("Anna kuvaus");
+        String description = io.nextLine();
+        id = db.addPodcastHint(new PodcastHint(name, type, author, publisher, description));
+        tagOption(id, name, HintType.PODCAST);
+    }
+
+    private void video(HintType type, String name) {
+        int id;
+        io.print("Anna url");
+        String url = io.nextLine();
+        io.print("Anna kommentti");
+        String comment = io.nextLine();
+        id = db.addVideoHint(new VideoHint(name, type, url, comment));
+        tagOption(id, name, HintType.VIDEO);
+    }
+
+    private void book(HintType type, String name) {
+        int id;
+        io.print("Anna kirjoittaja");
+        String author = io.nextLine();
+        io.print("Anna julkaisija");
+        String publisher = io.nextLine();
+        io.print("Anna julkaisuvuosi");
+
+        int year = io.nextInt();
+        id = db.addBookHint(
+                new BookHint(name, type, author, publisher, year));
+        tagOption(id, name, HintType.BOOK);
+    }
+
+    private void tagOption(int id, String name, HintType type) {
         io.print("Haluatko lisata tageja vinkille? 1 = kylla 0 = ei");
         int ans = io.nextInt();
         if (ans == 1) {
@@ -76,14 +108,7 @@ public class TextUserInterface {
             if (!tags.isEmpty()) db.addTags(id, tags);
         }
         io.print("Lisättiin vinkki nimellä " + name + ", Tyyppi: " + type);
-        }
-
-
-
-
-
-
-
+    }
 
 
     private void remove() {
@@ -104,8 +129,10 @@ public class TextUserInterface {
         int id = io.nextInt();
         switch (db.getHintType(id)) {
             case PODCAST:
+                System.out.println(db.getPodcastHint(id));
                 break;
             case BLOGPOST:
+                System.out.println(db.getBlogHint(id));
                 break;
             case VIDEO:
                 System.out.println(db.getVideoHint(id));
@@ -182,9 +209,7 @@ public class TextUserInterface {
                 break;
             default:
                 io.print("Vaara syote");
-
         }
-
     }
 }
 

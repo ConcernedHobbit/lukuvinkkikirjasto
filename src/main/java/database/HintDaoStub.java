@@ -1,9 +1,6 @@
 package database;
 
-import kirjasto.BookHint;
-import kirjasto.Hint;
-import kirjasto.HintType;
-import kirjasto.VideoHint;
+import kirjasto.*;
 import lombok.SneakyThrows;
 import org.apache.commons.dbutils.DbUtils;
 
@@ -31,6 +28,16 @@ public class HintDaoStub implements HintDao {
     }
 
     @Override
+    public PodcastHint getPodcastHint(int id) {
+        return null;
+    }
+
+    @Override
+    public BlogHint getBlogHint(int id) {
+        return null;
+    }
+
+    @Override
     public List<String> getAllHints() {
         return null;
     }
@@ -42,6 +49,16 @@ public class HintDaoStub implements HintDao {
 
     @Override
     public Integer addVideoHint(VideoHint hint) {
+        return null;
+    }
+
+    @Override
+    public Integer addPodcastHint(PodcastHint hint) {
+        return null;
+    }
+
+    @Override
+    public Integer addBlogHint(BlogHint hint) {
         return null;
     }
 
