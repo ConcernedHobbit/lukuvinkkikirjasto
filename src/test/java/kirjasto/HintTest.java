@@ -5,8 +5,11 @@ import org.junit.*;
 import static org.junit.Assert.*;
 
 public class HintTest {
+
     VideoHint videoHint;
     BookHint bookHint;
+    BlogHint blogHint;
+    PodcastHint podcastHint;
 
     @Before
     public void setUp() throws Exception {
@@ -16,6 +19,11 @@ public class HintTest {
         bookHint =
                 new BookHint("Modern VLSI design", HintType.BOOK, "Wayne Bruce",
                         "Otava", 1554);
+        blogHint = new BlogHint("Java Blog", HintType.BLOGPOST,
+                "Java Writer", "www.javablog.com");
+        podcastHint = new PodcastHint("Podcast", HintType.PODCAST,
+                "Michael", "Michaels podcast", "my first podcast - michael");
+
     }
 
     @Test
@@ -33,5 +41,19 @@ public class HintTest {
                         "Author: Wayne Bruce\n" +
                         "Publisher: Otava\n" +
                         "Year: 1554");
+    }
+
+    @Test
+    public void blogHintToString() {
+        assertEquals(blogHint.toString(), "Otsikko: Java Blog, Tyyppi: BLOGPOST\n" +
+                "Author: Java Writer, URL: www.javablog.com");
+    }
+
+    @Test
+    public void podcastHintToString() {
+        assertEquals(podcastHint.toString(), "Otsikko: Podcast, Tyyppi: PODCAST\n" +
+                "Author: Michael\n" +
+                "Podcast name: Michaels podcast\n" +
+                "Description: my first podcast - michael");
     }
 }

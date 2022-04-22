@@ -1,6 +1,7 @@
 package database;
 
 import kirjasto.*;
+import lombok.Generated;
 import lombok.SneakyThrows;
 import org.apache.commons.dbutils.DbUtils;
 
@@ -10,6 +11,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+@Generated
 public class HintDaoJdbc implements HintDao {
 
     @SneakyThrows
