@@ -287,6 +287,32 @@ public class HintDaoJdbc implements HintDao {
 
     @SneakyThrows
     @Override
+    public List<String> findWithType(HintType type) {
+        Connector connector = new Connector();
+        PreparedStatement ps =
+                connector.getConnection().prepareStatement("SELECT * FROM" +
+                        " hints WHERE type=?");
+        ps.setString(1, type.name());
+        ResultSet rs = ps.executeQuery();
+
+        if (rs.wasNull()) {
+            DbUtils.closeQuietly(connector.getConnection(), ps, rs);
+            return null;
+        }
+
+        ArrayList<String> list = new ArrayList<>();
+
+        while (rs.next()) {
+            list.add("ID=" + rs.getInt("id") + " " +
+                    new Hint(rs.getString("header"),
+                            HintType.valueOf(rs.getString("type"))));
+        }
+        DbUtils.closeQuietly(connector.getConnection(), ps, rs);
+        return list;
+    }
+
+    @SneakyThrows
+    @Override
     public HintType getHintType(int id) {
         Connector connector = new Connector();
         PreparedStatement ps = connector.getConnection()

@@ -23,18 +23,7 @@ public class TextUserInterface {
     private void add() {
         if (!useDB) return;
         io.print("Vinkin lisäys: ");
-        io.print("Anna vinkin tyyppi");
-        io.print("1 = video");
-        io.print("2 = kirja");
-        io.print("3 = blogpost");
-        io.print("4 = podcast");
-        int i = io.nextInt();
-        selector(i);
-    }
-
-    private void selector(int i) {
-        HintType type = (i == 1 || i == 2) ? i == 1 ? HintType.VIDEO :
-                HintType.BOOK : i == 3 ? HintType.BLOGPOST : HintType.PODCAST;
+        HintType type = selectType();
         io.print("Anna vinkin otsikko");
         String name = io.nextLine();
         switch (type) {
@@ -50,6 +39,17 @@ public class TextUserInterface {
             case PODCAST:
                 podcast(type, name);
         }
+    }
+
+    private HintType selectType() {
+        io.print("Anna vinkin tyyppi");
+        io.print("1 = video");
+        io.print("2 = kirja");
+        io.print("3 = blogpost");
+        io.print("4 = podcast");
+        int i = io.nextInt();
+        return (i == 1 || i == 2) ? i == 1 ? HintType.VIDEO :
+                HintType.BOOK : i == 3 ? HintType.BLOGPOST : HintType.PODCAST;
     }
 
     private void blog(HintType type, String name) {
@@ -165,6 +165,13 @@ public class TextUserInterface {
         }
     }
 
+    private void searchWithType() {
+        io.print("Anna hakusana");
+        for (String x : db.findWithType(this.selectType())) {
+            io.print(x);
+        }
+    }
+
     public boolean exit() {
         return this.endState;
     }
@@ -178,7 +185,8 @@ public class TextUserInterface {
                 "5) Avaa vinkki (ID)\n" +
                 "7) Hae tagilla vinkkei\n" +
                 "8) Lisää tagi existing vinkille\n" +
-                "9) Otsikkohaku (HEADER)");
+                "9) Otsikkohaku (HEADER)\n" +
+                "10) Tyyppihaku (TYPE)");
 
         io.print("Syota komento: ");
         int cmd = io.nextInt();
@@ -216,6 +224,9 @@ public class TextUserInterface {
                 break;
             case 9:
                 this.searchWithHeader();
+                break;
+            case 10:
+                this.searchWithType();
                 break;
             default:
                 io.print("Vaara syote");
