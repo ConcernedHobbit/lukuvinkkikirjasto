@@ -16,6 +16,8 @@ public interface HintDao {
 
     List<String> getAllHints();
 
+    List<String> findWithHeader(String header);
+
     Integer addBookHint(BookHint hint);
 
     Integer addVideoHint(VideoHint hint);

@@ -43,6 +43,11 @@ public class HintDaoStub implements HintDao {
     }
 
     @Override
+    public List<String> findWithHeader(String header) {
+        return null;
+    }
+
+    @Override
     public Integer addBookHint(BookHint hint) {
         return null;
     }

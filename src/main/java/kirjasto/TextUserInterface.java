@@ -158,6 +158,13 @@ public class TextUserInterface {
         db.addTags(id, tags);
     }
 
+    private void searchWithHeader() {
+        io.print("Anna hakusana");
+        for (String x : db.findWithHeader(io.nextLine())) {
+            io.print(x);
+        }
+    }
+
     public boolean exit() {
         return this.endState;
     }
@@ -170,11 +177,11 @@ public class TextUserInterface {
                 "4) Sulje valikko\n" +
                 "5) Avaa vinkki (ID)\n" +
                 "7) Hae tagilla vinkkei\n" +
-                "8) Lisää tagi existing vinkille");
+                "8) Lisää tagi existing vinkille\n" +
+                "9) Otsikkohaku (HEADER)");
 
         io.print("Syota komento: ");
         int cmd = io.nextInt();
-
 
         switch (cmd) {
             case 1:
@@ -206,6 +213,9 @@ public class TextUserInterface {
                 break;
             case 8:
                 this.addTagToExisting();
+                break;
+            case 9:
+                this.searchWithHeader();
                 break;
             default:
                 io.print("Vaara syote");
