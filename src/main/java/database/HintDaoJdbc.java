@@ -19,8 +19,13 @@ public class HintDaoJdbc implements HintDao {
     public BookHint getBookHint(int id) {
         Connector connector = new Connector();
         PreparedStatement ps = connector.getConnection()
-                .prepareStatement("SELECT * FROM hints " +
-                        "LEFT JOIN book b on hints.id = b.hint WHERE b.hint=?");
+                .prepareStatement("SELECT h.header, h.type, b.author," +
+                        " b.publisher, b.year, STRING_AGG(t.tag, ', ') " +
+                        "FROM hints h " +
+                        "LEFT JOIN book b on h.id = b.hint " +
+                        "LEFT JOIN tags t on h.id = t.hint " +
+                        "WHERE b.hint = ? " +
+                        "GROUP BY h.header, h.type, b.author, b.publisher, b.year");
         ps.setInt(1, id);
         ResultSet rs = ps.executeQuery();
 
@@ -30,6 +35,7 @@ public class HintDaoJdbc implements HintDao {
                     rs.getString("author"),
                     rs.getString("publisher"),
                     rs.getInt("year"));
+            temp.setTags(rs.getString("string_agg"));
             DbUtils.closeQuietly(connector.getConnection(), ps, rs);
             return temp;
         } else {
@@ -43,8 +49,13 @@ public class HintDaoJdbc implements HintDao {
     public VideoHint getVideoHint(int id) {
         Connector connector = new Connector();
         PreparedStatement ps = connector.getConnection()
-                .prepareStatement("SELECT * FROM hints " +
-                        "LEFT JOIN video v on hints.id = v.hint WHERE v.hint=?");
+                .prepareStatement("SELECT h.header, h.type, v.url, " +
+                        "v.comment, STRING_AGG(t.tag, ', ') " +
+                        "FROM hints h " +
+                        "LEFT JOIN video v on h.id = v.hint " +
+                        "LEFT JOIN tags t on h.id = t.hint " +
+                        "WHERE v.hint = ? " +
+                        "GROUP BY h.header, h.type, v.url, v.comment");
         ps.setInt(1, id);
         ResultSet rs = ps.executeQuery();
 
@@ -52,6 +63,7 @@ public class HintDaoJdbc implements HintDao {
             VideoHint temp = new VideoHint(rs.getString("header"),
                     HintType.valueOf(rs.getString("type")), rs.getString("url"),
                     rs.getString("comment"));
+            temp.setTags(rs.getString("string_agg"));
             DbUtils.closeQuietly(connector.getConnection(), ps, rs);
             return temp;
         } else {
@@ -65,8 +77,13 @@ public class HintDaoJdbc implements HintDao {
     public BlogHint getBlogHint(int id) {
         Connector connector = new Connector();
         PreparedStatement ps = connector.getConnection()
-                .prepareStatement("SELECT * FROM hints " +
-                        "LEFT JOIN blog b on hints.id = b.hint WHERE b.hint=?");
+                .prepareStatement("SELECT h.header, h.type, b.author, b.url, " +
+                        "STRING_AGG(t.tag, ', ') " +
+                        "FROM hints h " +
+                        "LEFT JOIN blog b on h.id = b.hint " +
+                        "LEFT JOIN tags t on h.id = t.hint " +
+                        "WHERE b.hint = ? " +
+                        "GROUP BY h.header, h.type, b.author, b.url");
         ps.setInt(1, id);
         ResultSet rs = ps.executeQuery();
 
@@ -74,6 +91,7 @@ public class HintDaoJdbc implements HintDao {
             BlogHint temp = new BlogHint(rs.getString("header"),
                     HintType.valueOf(rs.getString("type")), rs.getString("author"),
                     rs.getString("url"));
+            temp.setTags(rs.getString("string_agg"));
             DbUtils.closeQuietly(connector.getConnection(), ps, rs);
             return temp;
         } else {
@@ -87,8 +105,13 @@ public class HintDaoJdbc implements HintDao {
     public PodcastHint getPodcastHint(int id) {
         Connector connector = new Connector();
         PreparedStatement ps = connector.getConnection()
-                .prepareStatement("SELECT * FROM hints " +
-                        "LEFT JOIN podcast p on hints.id = p.hint WHERE p.hint=?");
+                .prepareStatement("SELECT h.header, h.type, p.author, " +
+                        "p.name, p.description, STRING_AGG(t.tag, ', ') " +
+                        "FROM hints h " +
+                        "LEFT JOIN podcast p on h.id = p.hint " +
+                        "LEFT JOIN tags t on h.id = t.hint " +
+                        "WHERE p.hint = ? " +
+                        "GROUP BY h.header, h.type, p.author, p.name, p.description");
         ps.setInt(1, id);
         ResultSet rs = ps.executeQuery();
 
@@ -96,6 +119,7 @@ public class HintDaoJdbc implements HintDao {
             PodcastHint temp = new PodcastHint(rs.getString("header"),
                     HintType.valueOf(rs.getString("type")), rs.getString("author"),
                     rs.getString("name"), rs.getString("description"));
+            temp.setTags(rs.getString("string_agg"));
             DbUtils.closeQuietly(connector.getConnection(), ps, rs);
             return temp;
         } else {
