@@ -192,8 +192,39 @@ public class TextUserInterface {
                 String hint = allHints.get(i);
                 Integer id = Integer.parseInt(hint.split(" ", 2)[0].substring(3));
                 String hintType = hint.split("Tyyppi: ")[1];
-                outWriter.write("<HINT>" + id + " " + hintType + "</HINT>\n");
-//                outWriter.write(hint + "\n");
+                outWriter.write("<HINT><ID>" + id + "</ID>");
+                if ("VIDEO".equals(hintType)) {
+                    VideoHint videoHint = db.getVideoHint(id);
+                    outWriter.write("<VIDEO>");
+                    outWriter.write("<HEADER>" + videoHint.getHeader() + "</HEADER>");
+                    outWriter.write("<URL>" + videoHint.getUrl() + "</URL>");
+                    outWriter.write("<COMMENT>" + videoHint.getComment() + "</COMMENT>");
+                    outWriter.write("</VIDEO>");
+                } else if ("BOOK".equals(hintType)) {
+                    BookHint bookHint = db.getBookHint(id);
+                    outWriter.write("<BOOK>");
+                    outWriter.write("<HEADER>" + bookHint.getHeader() + "</HEADER>");
+                    outWriter.write("<AUTHOR>" + bookHint.getAuthor() + "</AUTHOR>");
+                    outWriter.write("<PUBLISHER>" + bookHint.getPublisher() + "</PUBLISHER>");
+                    outWriter.write("<YEAR>" + bookHint.getYear() + "</YEAR>");
+                    outWriter.write("</BOOK>");
+                } else if ("PODCAST".equals(hintType)) {
+                    PodcastHint podcastHint = db.getPodcastHint(id);
+                    outWriter.write("<PODCAST>");
+                    outWriter.write("<HEADER>" + podcastHint.getHeader() + "</HEADER>");
+                    outWriter.write("<AUTHOR>" + podcastHint.getAuthor() + "</AUTHOR>");
+                    outWriter.write("<NAME>" + podcastHint.getName() + "</NAME>");
+                    outWriter.write("<DESCRIPTION>" + podcastHint.getDescription() + "</DESCRIPTION>");
+                    outWriter.write("</PODCAST>");
+                } else if ("BLOGPOST".equals(hintType)) {
+                    BlogHint blogHint = db.getBlogHint(id);
+                    outWriter.write("<BLOGPOST>");
+                    outWriter.write("<HEADER>" + blogHint.getHeader() + "</HEADER>");
+                    outWriter.write("<AUTHOR>" + blogHint.getAuthor() + "</AUTHOR>");
+                    outWriter.write("<URL>" + blogHint.getUrl() + "</URL>");
+                    outWriter.write("</BLOGPOST>");
+                }
+                outWriter.write("</HINT>\n");
             }
             outWriter.write("</HINTS>\n");
             outWriter.close();
