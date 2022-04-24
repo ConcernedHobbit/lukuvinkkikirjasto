@@ -2,6 +2,10 @@ package kirjasto;
 
 
 import database.*;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.List;
 
 public class TextUserInterface {
 
@@ -172,6 +176,31 @@ public class TextUserInterface {
         }
     }
 
+    private void exportDatabase() {
+        io.print("Anna tiedoston nimi");
+        String fileName = io.nextLine();
+        try {
+            File outFile = new File(fileName);
+            if (!outFile.createNewFile()) {
+                outFile.delete();
+                outFile.createNewFile();
+            }
+            List<String> allHints = db.getAllHints();
+            FileWriter outWriter = new FileWriter(fileName);
+            outWriter.write("<HINTS>\n");
+            for (int i = 0; i < allHints.size(); i++) {
+                String hint = allHints.get(i);
+                Integer id = Integer.parseInt(hint.split(" ", 2)[0].substring(3));
+                String hintType = hint.split("Tyyppi: ")[1];
+                outWriter.write("<HINT>" + id + " " + hintType + "</HINT>\n");
+//                outWriter.write(hint + "\n");
+            }
+            outWriter.write("</HINTS>\n");
+            outWriter.close();
+        } catch (IOException e) {
+            io.print("Tiedostoon vienti epäonnistui " + fileName);
+        }
+    }
     public boolean exit() {
         return this.endState;
     }
@@ -186,7 +215,8 @@ public class TextUserInterface {
                 "7) Hae tagilla vinkkei\n" +
                 "8) Lisää tagi existing vinkille\n" +
                 "9) Otsikkohaku (HEADER)\n" +
-                "10) Tyyppihaku (TYPE)");
+                "10) Tyyppihaku (TYPE)\n" +
+                "11) Vie tiedostoon (TIEDOSTO)");
 
         io.print("Syota komento: ");
         int cmd = io.nextInt();
@@ -227,6 +257,9 @@ public class TextUserInterface {
                 break;
             case 10:
                 this.searchWithType();
+                break;
+            case 11:
+                this.exportDatabase();
                 break;
             default:
                 io.print("Vaara syote");
