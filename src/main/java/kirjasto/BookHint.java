@@ -11,9 +11,9 @@ public class BookHint extends Hint {
     private String publisher;
     private int year;
 
-    public BookHint(String header, HintType type, String author,
+    public BookHint(String header, HintType hintType, String author,
                     String publisher, int year) {
-        super(header, type);
+        super(header, hintType);
         this.author = author;
         this.publisher = publisher;
         this.year = year;
