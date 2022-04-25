@@ -15,7 +15,7 @@ import static org.mockito.Mockito.*;
 
 import java.util.ArrayList;
 import java.util.List;
-
+import java.io.File;
 
 class textIO implements IO {
     ArrayList<String> inputs;
@@ -123,6 +123,8 @@ public class TextUserInterfaceTest {
     HintDaoJdbc mockDao;
     BookHint testBook;
     VideoHint testVideo;
+    PodcastHint testPodcast;
+    BlogHint testBlog;
     ArrayList<String> hints;
     String videoTag;
 
@@ -134,11 +136,19 @@ public class TextUserInterfaceTest {
                 "test.com", "cool");
         testBook = new BookHint("testBook", HintType.BOOK, "testAuth",
                 "testPub", 2000);
+        testPodcast = new PodcastHint("testPodcast", HintType.PODCAST, "Joe", "Joe's day", "Daily things");
+        testBlog = new BlogHint("testBlog", HintType.BLOGPOST, "Joe2", "joe.blobpost.com");
         hints = new ArrayList<>();
-        hints.add("test");
+        hints.add("ID=1 Otsikko: Pakko lukea., Tyyppi: BOOK");
+        hints.add("ID=1 Otsikko: Pakko katsoa., Tyyppi: VIDEO");
+        hints.add("ID=1 Otsikko: Pakko kuunnella., Tyyppi: PODCAST");
+        hints.add("ID=1 Otsikko: Pakko lukea., Tyyppi: BLOGPOST");
         videoTag = "hieno video";
 
         when(mockDao.getBookHint(1)).thenReturn(testBook);
+        when(mockDao.getVideoHint(1)).thenReturn(testVideo);
+        when(mockDao.getPodcastHint(1)).thenReturn(testPodcast);
+        when(mockDao.getBlogHint(1)).thenReturn(testBlog);
         when(mockDao.getAllHints()).thenReturn(hints);
         when(mockDao.addBookHint(testBook)).thenReturn(1);
         when(mockDao.addVideoHint(testVideo)).thenReturn(1);
@@ -282,6 +292,16 @@ public class TextUserInterfaceTest {
 
     }
 
+    @Test
+    public void exportDatabaseCreateExport() {
+        String[] inputs = {"11", "export.txt"};
+        String[] outputs = {"Anna tiedoston nimi"};
+        textIO tIO = new textIO(inputs, outputs);
+        new TextUserInterface(tIO, mockDao).display();
+        File outFile = new File("export.txt");
+        assertTrue(outFile.exists());
+        outFile.delete();
+    }
     public void testOutputLength(textIO tIO) {
         assertEquals(tIO.outputs.size(), tIO.expectedOutputs.size());
     }
