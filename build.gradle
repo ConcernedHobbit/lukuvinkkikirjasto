@@ -61,6 +61,24 @@ jar {
     }
 }
 
+task fatJar(type: Jar) {
+    manifest {
+        attributes 'Main-Class': 'kirjasto.Main'
+    }
+
+    setDuplicatesStrategy(DuplicatesStrategy.INCLUDE)
+
+    from {
+        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+    {
+        exclude "META-INF/*.SF"
+        exclude "META-INF/*.DSA"
+        exclude "META-INF/*.RSA"
+    }
+    with jar
+}
+
 jacocoTestReport {
     reports {
         xml.enabled true

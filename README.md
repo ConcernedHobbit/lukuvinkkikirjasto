@@ -38,6 +38,9 @@ Testiraportti muodostuu polkuun `build/reports/test`
 **Testikattavuus**: `(gradle) test jacocoTestReport`  
 Testikattavuusraportti muodostuu polkuun `build/reports/jacoco/test`
 
+**Rakentaminen**: `(gradle) fatJar`  
+Rakennettu .jar muodostuu polkuun `build/libs/lukuvinkkikirjasto.jar`
+
 ## Käyttöohje tekstikäyttöliittymään
 
 [Käyttöohje](https://github.com/ConcernedHobbit/lukuvinkkikirjasto/blob/main/doc/Usermanual.md)
