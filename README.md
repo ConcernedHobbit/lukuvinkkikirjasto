@@ -52,3 +52,4 @@ Rakennettu .jar muodostuu polkuun `build/libs/lukuvinkkikirjasto.jar`
 - [Sprint1 backlog](https://github.com/ConcernedHobbit/lukuvinkkikirjasto/projects/2)
 - [Sprint2 backlog](https://github.com/ConcernedHobbit/lukuvinkkikirjasto/projects/3)
 - [Burndown](https://github.com/ConcernedHobbit/github-projects-burndown-chart/blob/main/src/github_projects_burndown_chart/charts/lukuvinkkikirjasto-latest.png)
+- [Loppuraportti](https://docs.google.com/document/d/1siT6BKCfMJHMrEM98P6JCq6Qxnv8B9rzob72TXm7zC4/edit?usp=sharing)
